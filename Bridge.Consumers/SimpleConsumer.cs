@@ -23,7 +23,7 @@ namespace Bridge.Consumers
         {
             while(true)
             {
-                Console.WriteLine($"[{{GetType().Name}}] Data received");
+                Console.WriteLine($"[{GetType().Name}] Data received");
                 DataReceived?.Invoke(this, "Hello World!");
                 Thread.Sleep(_delay * 1000);
             }
@@ -31,7 +31,7 @@ namespace Bridge.Consumers
 
         public void Dispose()
         {
-            Console.WriteLine($"[{{GetType().Name}}] of the type {this.GetType()} disposed");
+            Console.WriteLine($"[{GetType().Name}] of the type {this.GetType()} disposed");
         }
 
         public void SetResult(object result)

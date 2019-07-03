@@ -42,8 +42,7 @@ namespace Bridge.Processor
 
                 if (p != null)
                 {
-                    var processor = new ActiveJobProcessor(p.Id, _provider);
-                    processor.Initialize(p);
+                    var processor = JobProcessorFactory.CreateProcessor(p, _provider);
                     res = processor;
                 }
             }
