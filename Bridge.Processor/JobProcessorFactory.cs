@@ -9,7 +9,7 @@ namespace Bridge.Processor
         public static IJobProcessor CreateProcessor(ProcessorConfig config, IServiceProvider provider)
         {
             IJobProcessor res = null;
-            if (!config.IsActive)
+            if (config.DataConsumer == null)
             {
                 res = new PassiveJobProcessor(config.Id, provider);
                 ((PassiveJobProcessor)res).Initialize(config);

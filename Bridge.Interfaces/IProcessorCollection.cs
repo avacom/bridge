@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 
 namespace Bridge.Interfaces
@@ -6,7 +7,7 @@ namespace Bridge.Interfaces
     /// <summary>
     /// Collection of job processors
     /// </summary>
-    public interface IProcessorCollection
+    public interface IProcessorCollection: IDisposable
     {
         /// <summary>
         /// Get job processors

@@ -13,7 +13,7 @@ namespace Bridge.Processor
         public List<IJobProcessor> Processors { get; private set; }
 
         private readonly IServiceProvider _provider;
-        private List<ProcessorConfig> _processors;
+        private List<ProcessorConfig> _processorConfigs;
 
         public ProcessorCollection(IServiceProvider provider)
         {
@@ -23,9 +23,9 @@ namespace Bridge.Processor
 
         public void Initialize(IConfiguration config)
         {
-            _processors = config.GetSection("Processors").Get<List<ProcessorConfig>>();
+            _processorConfigs = config.GetSection("Processors").Get<List<ProcessorConfig>>();
 
-            foreach (var p in _processors)
+            foreach (var p in _processorConfigs)
             {
                 var processor = JobProcessorFactory.CreateProcessor(p, _provider);
                 Processors.Add(processor);
@@ -38,7 +38,7 @@ namespace Bridge.Processor
 
             if (newInstance)
             {
-                var p = _processors?.Where(i => i.Id == id).FirstOrDefault();
+                var p = _processorConfigs?.Where(i => i.Id == id).FirstOrDefault();
 
                 if (p != null)
                 {
@@ -52,6 +52,20 @@ namespace Bridge.Processor
             }
 
             return res;
+        }
+
+        public void Dispose()
+        {
+            if (Processors != null)
+            {
+                foreach(var p in Processors)
+                {
+                    p.Dispose();
+                }
+            }
+
+            Processors.Clear();
+            Processors = null;
         }
     }
 }

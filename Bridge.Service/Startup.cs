@@ -27,11 +27,9 @@ namespace Bridge.Service
         {
             var mvcBuilder = services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            var assemblies = Configuration.GetSection("Processors")?.Get<List<ProcessorConfig>>()
-                .Select(p => p.DataConsumer)
-                .Select(c => $"{AppDomain.CurrentDomain.BaseDirectory}\\{c.Assembly}")
+            var assemblies = Configuration.GetSection("ControllerAssemblies")?.Get<List<string>>()
                 .Distinct()
-                .Select(a => Assembly.LoadFile(a))
+                .Select(a => Assembly.LoadFile($"{AppDomain.CurrentDomain.BaseDirectory}\\{a}"))
                 .ToList();
 
             if (assemblies != null)
